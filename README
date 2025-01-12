@@ -1,0 +1,9 @@
+Greninja: A small build system I wrote for my C/C++ projects.
+
+I often get frustrated by the boilerplate of Bazel or CMake, and copy-pasting a Makefile template got annoying. So I spent some time making this small system that produces Ninja buildfiles automatically.
+
+Building:
+Greninja is bootstrapped, but to initially compile it, you should be able to build it with any C++ compiler.
+
+Usage:
+`greninja opt/dbg` produces a Ninja build file with the given configuration, `greninja clean` cleans up the build directory and ninja file.

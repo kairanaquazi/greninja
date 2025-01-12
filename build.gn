@@ -1,0 +1,3 @@
+cxx greninja greninja.cc
+bin greninja greninja.o
+install greninja
