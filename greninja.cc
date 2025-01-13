@@ -3,9 +3,9 @@
 #include <iostream>
 #include <sstream>
 #include <stdio.h>
-#include <unistd.h>
 #include <string.h>
 #include <string>
+#include <unistd.h>
 
 #define ILOG(FMT, ...)                                                         \
   printf("INFO %s:%d] "##FMT##"\n", __FILE__, __LINE__, __VA_ARGS__)
@@ -60,7 +60,12 @@ rule clean
   command = rm $builddir/*
   description = CLEAN
 
+rule default
+  command = echo Specify a build target!
 
+
+build default: default $root
+default default
 build clean: clean $builddir
 )";
 
@@ -75,7 +80,7 @@ int main(int argc, char **argv) {
   if (!isdbg && !isopt && !isclean) {
     ELOG(-1, "Invalid mode \"%s\", expected \"dbg\", \"opt\", \"clean\"", mode);
   }
-  if(isclean){
+  if (isclean) {
     execl("/usr/bin/rm", "rm", "-rf", "build", "build.ninja", NULL);
     return 0;
   }
@@ -123,9 +128,9 @@ int main(int argc, char **argv) {
         ss >> t;
         os << " $builddir/" << t;
       }
-      os << "\ndefault $builddir/" << name;
-    } else if (method == "install") {
-      os << "build install: install $builddir/" << name << "\n  pool = console";
+    } else if (method == "install_bin") {
+      os << "build install_" << name << ": install $builddir/" << name
+         << "\n  pool = console";
     } else {
       ELOG(-1, "Invalid method %s!", method.c_str());
     }
