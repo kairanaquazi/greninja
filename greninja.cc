@@ -66,7 +66,9 @@ rule default
 
 build default: default $root
 default default
-build clean: clean $builddir
+build clean: clean
+
+
 )";
 
 int main(int argc, char **argv) {
@@ -130,7 +132,12 @@ int main(int argc, char **argv) {
       }
     } else if (method == "install_bin") {
       os << "build install_" << name << ": install $builddir/" << name
-         << "\n  pool = console";
+         << "\n  pool = console\n  libs =";
+      while (!ss.eof()) {
+        std::string t;
+        ss >> t;
+        os << " -L" << t;
+      }
     } else {
       ELOG(-1, "Invalid method %s!", method.c_str());
     }
